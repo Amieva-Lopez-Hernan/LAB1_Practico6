@@ -6,6 +6,7 @@ package Vistas;
 
 import Entidades.Categoria;
 import Entidades.Producto;
+import java.util.Iterator;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -159,8 +160,18 @@ public class jifProductos extends javax.swing.JInternalFrame {
         jbCancelar.setText("Cancelar");
 
         jbActualizar.setText("Actualizar");
+        jbActualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbActualizarActionPerformed(evt);
+            }
+        });
 
         jbNuevo.setText("Nuevo");
+        jbNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbNuevoActionPerformed(evt);
+            }
+        });
 
         jbEliminar.setText("Eliminar");
         jbEliminar.addActionListener(new java.awt.event.ActionListener() {
@@ -239,6 +250,7 @@ public class jifProductos extends javax.swing.JInternalFrame {
     private void jbGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGuardarActionPerformed
         // TODO add your handling code here:
         agregarProducto();
+        cbCategoriasActionPerformed(evt);
     }//GEN-LAST:event_jbGuardarActionPerformed
 
     private void jbBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarActionPerformed
@@ -267,13 +279,22 @@ public class jifProductos extends javax.swing.JInternalFrame {
 
     private void jbEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEliminarActionPerformed
         // TODO add your handling code here:
-        int eliminar = Integer.parseInt(jtPaneCodigo.getText());
-        for (Producto prod : deTodosSa.listaProductos){
-            if (eliminar == prod.getCodigo()) {
-                deTodosSa.listaProductos.remove(prod);
-            }
-        }
+        eliminarProducto();
     }//GEN-LAST:event_jbEliminarActionPerformed
+
+    private void jbActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbActualizarActionPerformed
+        // TODO add your handling code here:
+        actualizarProducto();
+        cbCategoriasActionPerformed(evt);
+    }//GEN-LAST:event_jbActualizarActionPerformed
+
+    private void jbNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbNuevoActionPerformed
+        // TODO add your handling code here:
+        jtPaneCodigo.setText("");
+        jtPaneDescripcion.setText("");
+        jtPanePrecio.setText("");
+        jSpinner1.setValue(0);
+    }//GEN-LAST:event_jbNuevoActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -317,7 +338,7 @@ public class jifProductos extends javax.swing.JInternalFrame {
         String descripcion = jtPaneDescripcion.getText();
         double precio = Double.parseDouble(jtPanePrecio.getText());
         int stock = Integer.parseInt(jSpinner1.getValue().toString());
-        Categoria rubro = Categoria.COMESTIBLES;
+        Categoria rubro = (Categoria) cbPaneRubro.getSelectedItem();
         Producto prod = new Producto(codigo, descripcion, precio, stock, rubro);
         deTodosSa.listaProductos.add(prod);
         
@@ -341,4 +362,31 @@ public class jifProductos extends javax.swing.JInternalFrame {
             modelo.removeRow(f);
         }
     }
+     
+     public void eliminarProducto () {
+         Iterator<Producto> iter = deTodosSa.listaProductos.iterator();
+         while (iter.hasNext()) {
+             Producto prod = (Producto) iter.next();
+             if (prod.getCodigo() == Integer.parseInt(jtPaneCodigo.getText())){
+                 deTodosSa.listaProductos.remove(prod);
+             }
+         }
+     }
+     
+     public void actualizarProducto (){
+         for (Producto prod : deTodosSa.listaProductos){
+             if(prod.getCodigo() == Integer.parseInt(jtPaneCodigo.getText())){
+                 int codigo = Integer.parseUnsignedInt(jtPaneCodigo.getText());
+                 prod.setCodigo(codigo);
+                 String descripcion = jtPaneDescripcion.getText();
+                 prod.setDescripcion(descripcion);
+                 double precio = Double.parseDouble(jtPanePrecio.getText());
+                 prod.setPrecio(precio);
+                 int stock = Integer.parseInt(jSpinner1.getValue().toString());
+                 prod.setStock(stock);
+                 Categoria rubro = (Categoria) cbPaneRubro.getSelectedItem();
+                 prod.setRubro(rubro);
+             }
+         }
+     }
 }
