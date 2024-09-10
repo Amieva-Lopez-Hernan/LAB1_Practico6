@@ -4,6 +4,8 @@
  */
 package Vistas;
 
+import Entidades.Categoria;
+import Entidades.Producto;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -20,6 +22,7 @@ public class jifProductos extends javax.swing.JInternalFrame {
     public jifProductos() {
         initComponents();
         armarCabecera();
+        cargarCombo();
     }
 
     /**
@@ -31,7 +34,7 @@ public class jifProductos extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
+        jlGdeProductos = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         cbCategorias = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -46,6 +49,7 @@ public class jifProductos extends javax.swing.JInternalFrame {
         jtPaneDescripcion = new javax.swing.JTextField();
         jtPanePrecio = new javax.swing.JTextField();
         cbPaneRubro = new javax.swing.JComboBox<>();
+        jSpinner1 = new javax.swing.JSpinner();
         jbBuscar = new javax.swing.JButton();
         jbCancelar = new javax.swing.JButton();
         jbActualizar = new javax.swing.JButton();
@@ -53,15 +57,9 @@ public class jifProductos extends javax.swing.JInternalFrame {
         jbEliminar = new javax.swing.JButton();
         jbGuardar = new javax.swing.JButton();
 
-        jLabel1.setText("Gestion de Productos");
+        jlGdeProductos.setText("Gestion de Productos");
 
         jLabel2.setText("Filtar por categoría");
-
-        cbCategorias.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbCategoriasActionPerformed(evt);
-            }
-        });
 
         jTableGProductos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -100,9 +98,6 @@ public class jifProductos extends javax.swing.JInternalFrame {
                         .addGap(41, 41, 41)
                         .addComponent(jtPaneCodigo))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jlStock)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jlDescripcion)
                         .addGap(18, 18, 18)
                         .addComponent(jtPaneDescripcion))
@@ -111,9 +106,15 @@ public class jifProductos extends javax.swing.JInternalFrame {
                         .addGap(47, 47, 47)
                         .addComponent(jtPanePrecio))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jlRubro)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jlRubro)
+                            .addComponent(jlStock))
                         .addGap(48, 48, 48)
-                        .addComponent(cbPaneRubro, 0, 194, Short.MAX_VALUE)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cbPaneRubro, 0, 194, Short.MAX_VALUE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -136,11 +137,18 @@ public class jifProductos extends javax.swing.JInternalFrame {
                     .addComponent(jlRubro)
                     .addComponent(cbPaneRubro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jlStock)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jlStock)
+                    .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(21, Short.MAX_VALUE))
         );
 
         jbBuscar.setText("buscar");
+        jbBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbBuscarActionPerformed(evt);
+            }
+        });
 
         jbCancelar.setText("Cancelar");
 
@@ -151,6 +159,11 @@ public class jifProductos extends javax.swing.JInternalFrame {
         jbEliminar.setText("Eliminar");
 
         jbGuardar.setText("Guardar");
+        jbGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbGuardarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -170,7 +183,7 @@ public class jifProductos extends javax.swing.JInternalFrame {
                         .addComponent(jLabel2)
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
+                            .addComponent(jlGdeProductos)
                             .addComponent(cbCategorias, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -186,7 +199,7 @@ public class jifProductos extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
+                .addComponent(jlGdeProductos)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
@@ -206,24 +219,36 @@ public class jifProductos extends javax.swing.JInternalFrame {
                     .addComponent(jbEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jbGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jbNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addContainerGap(10, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void cbCategoriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbCategoriasActionPerformed
+    private void jbGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGuardarActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_cbCategoriasActionPerformed
+        agregarProducto();
+    }//GEN-LAST:event_jbGuardarActionPerformed
+
+    private void jbBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarActionPerformed
+        // TODO add your handling code here:
+        borrarFilas();
+        for (Producto prod : deTodosSa.listaProductos) {
+            // Agrego las filas a la tabla si el producto empieza con determinada letra.
+            if (cbCategorias.getSelectedItem() == prod.getRubro()){
+                modelo.addRow(new Object[]{prod.getCodigo(), prod.getDescripcion(), prod.getPrecio(), prod.getRubro(), prod.getStock()});
+            }
+        }
+    }//GEN-LAST:event_jbBuscarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> cbCategorias;
-    private javax.swing.JComboBox<String> cbPaneRubro;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JComboBox<Categoria> cbCategorias;
+    private javax.swing.JComboBox<Categoria> cbPaneRubro;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSpinner jSpinner1;
     private javax.swing.JTable jTableGProductos;
     private javax.swing.JButton jbActualizar;
     private javax.swing.JButton jbBuscar;
@@ -233,6 +258,7 @@ public class jifProductos extends javax.swing.JInternalFrame {
     private javax.swing.JButton jbNuevo;
     private javax.swing.JLabel jlCodigo;
     private javax.swing.JLabel jlDescripcion;
+    private javax.swing.JLabel jlGdeProductos;
     private javax.swing.JLabel jlPrecio;
     private javax.swing.JLabel jlRubro;
     private javax.swing.JLabel jlStock;
@@ -249,5 +275,36 @@ public class jifProductos extends javax.swing.JInternalFrame {
         modelo.addColumn("Stock");
         jTableGProductos.setModel(modelo);
         
+    }
+    
+    public void agregarProducto (){
+        
+        int codigo = Integer.parseUnsignedInt(jtPaneCodigo.getText());
+        String descripcion = jtPaneDescripcion.getText();
+        double precio = Double.parseDouble(jtPanePrecio.getText());
+        int stock = Integer.parseInt(jSpinner1.getValue().toString());
+        Categoria rubro = Categoria.COMESTIBLES;
+        Producto prod = new Producto(codigo, descripcion, precio, stock, rubro);
+        deTodosSa.listaProductos.add(prod);
+        
+    }
+    
+    public void cargarCombo () {
+        // Llenar combos: 
+        cbPaneRubro.addItem(Categoria.LIMPIEZA);
+        cbPaneRubro.addItem(Categoria.COMESTIBLES);
+        cbPaneRubro.addItem(Categoria.PERFUMERIA);
+        
+        cbCategorias.addItem(Categoria.LIMPIEZA);
+        cbCategorias.addItem(Categoria.COMESTIBLES);
+        cbCategorias.addItem(Categoria.PERFUMERIA);
+    }
+    
+     private void borrarFilas (){
+        // Determinamos las filas de la tabla:
+        int f = jTableGProductos.getRowCount()-1;
+        for (;f >= 0;f--){
+            modelo.removeRow(f);
+        }
     }
 }

@@ -114,7 +114,7 @@ public class jifConsultaNombre extends javax.swing.JInternalFrame {
         borrarFilas();
         for (Producto prod : deTodosSa.listaProductos) {
             // Agrego las filas a la tabla si el producto empieza con determinada letra.
-            if (prod.getDescripcion().startsWith(jtNombreProducto.getText())){
+            if (prod.getDescripcion().toLowerCase().startsWith(jtNombreProducto.getText().toLowerCase())){
                 modelo.addRow(new Object[]{prod.getCodigo(), prod.getDescripcion(), prod.getPrecio(), prod.getStock()});
             }
         }
