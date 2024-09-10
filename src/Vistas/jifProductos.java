@@ -61,6 +61,12 @@ public class jifProductos extends javax.swing.JInternalFrame {
 
         jLabel2.setText("Filtar por categoría");
 
+        cbCategorias.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbCategoriasActionPerformed(evt);
+            }
+        });
+
         jTableGProductos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -157,6 +163,11 @@ public class jifProductos extends javax.swing.JInternalFrame {
         jbNuevo.setText("Nuevo");
 
         jbEliminar.setText("Eliminar");
+        jbEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbEliminarActionPerformed(evt);
+            }
+        });
 
         jbGuardar.setText("Guardar");
         jbGuardar.addActionListener(new java.awt.event.ActionListener() {
@@ -232,14 +243,37 @@ public class jifProductos extends javax.swing.JInternalFrame {
 
     private void jbBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarActionPerformed
         // TODO add your handling code here:
-        borrarFilas();
+        int buscar = Integer.parseInt(jtPaneCodigo.getText());  
+        for (Producto prod : deTodosSa.listaProductos){
+            if (buscar == prod.getCodigo()){
+                jtPaneDescripcion.setText(prod.getDescripcion());
+                jtPanePrecio.setText(String.valueOf(prod.getPrecio()));
+                cbPaneRubro.setSelectedItem(prod.getRubro());
+                jSpinner1.setValue(prod.getStock());
+            }
+        }
+    }//GEN-LAST:event_jbBuscarActionPerformed
+
+    private void cbCategoriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbCategoriasActionPerformed
+        // TODO add your handling code here:
+          borrarFilas();
         for (Producto prod : deTodosSa.listaProductos) {
             // Agrego las filas a la tabla si el producto empieza con determinada letra.
             if (cbCategorias.getSelectedItem() == prod.getRubro()){
                 modelo.addRow(new Object[]{prod.getCodigo(), prod.getDescripcion(), prod.getPrecio(), prod.getRubro(), prod.getStock()});
             }
         }
-    }//GEN-LAST:event_jbBuscarActionPerformed
+    }//GEN-LAST:event_cbCategoriasActionPerformed
+
+    private void jbEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEliminarActionPerformed
+        // TODO add your handling code here:
+        int eliminar = Integer.parseInt(jtPaneCodigo.getText());
+        for (Producto prod : deTodosSa.listaProductos){
+            if (eliminar == prod.getCodigo()) {
+                deTodosSa.listaProductos.remove(prod);
+            }
+        }
+    }//GEN-LAST:event_jbEliminarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
