@@ -74,7 +74,7 @@ public class jifProductos extends javax.swing.JInternalFrame {
             }
         });
 
-        jTableGProductos.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        jTableGProductos.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         jTableGProductos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
