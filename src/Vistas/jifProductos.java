@@ -6,7 +6,7 @@ package Vistas;
 
 import Entidades.Categoria;
 import Entidades.Producto;
-import java.util.Iterator;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -16,6 +16,9 @@ import javax.swing.table.DefaultTableModel;
 public class jifProductos extends javax.swing.JInternalFrame {
     
      private DefaultTableModel modelo = new DefaultTableModel();
+     private static boolean eliminado = false;
+     private static boolean actualizado = false;
+     private static Producto prodEA;
 
     /**
      * Creates new form jifProductos
@@ -58,6 +61,7 @@ public class jifProductos extends javax.swing.JInternalFrame {
         jbEliminar = new javax.swing.JButton();
         jbGuardar = new javax.swing.JButton();
 
+        jlGdeProductos.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jlGdeProductos.setText("Gestion de Productos");
 
         jLabel2.setText("Filtar por categoría");
@@ -158,6 +162,11 @@ public class jifProductos extends javax.swing.JInternalFrame {
         });
 
         jbCancelar.setText("Cancelar");
+        jbCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbCancelarActionPerformed(evt);
+            }
+        });
 
         jbActualizar.setText("Actualizar");
         jbActualizar.addActionListener(new java.awt.event.ActionListener() {
@@ -194,28 +203,32 @@ public class jifProductos extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(21, 21, 21)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jbBuscar)
-                            .addComponent(jbCancelar)
-                            .addComponent(jbEliminar)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jbEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE)
+                            .addComponent(jbBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jlGdeProductos)
-                            .addComponent(cbCategorias, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addComponent(cbCategorias, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jbNuevo)
                         .addGap(26, 26, 26)
                         .addComponent(jbGuardar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jbActualizar)
-                        .addGap(98, 98, 98)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jbCancelar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jbActualizar)
+                                .addGap(98, 98, 98)))))
                 .addContainerGap(18, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jlGdeProductos)
+                .addGap(113, 113, 113))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -231,17 +244,16 @@ public class jifProductos extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jbBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(100, 100, 100)
-                        .addComponent(jbCancelar)))
+                    .addComponent(jbBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(27, 27, 27)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jbActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jbEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jbGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jbNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(10, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jbCancelar)
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         pack();
@@ -255,15 +267,7 @@ public class jifProductos extends javax.swing.JInternalFrame {
 
     private void jbBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarActionPerformed
         // TODO add your handling code here:
-        int buscar = Integer.parseInt(jtPaneCodigo.getText());  
-        for (Producto prod : deTodosSa.listaProductos){
-            if (buscar == prod.getCodigo()){
-                jtPaneDescripcion.setText(prod.getDescripcion());
-                jtPanePrecio.setText(String.valueOf(prod.getPrecio()));
-                cbPaneRubro.setSelectedItem(prod.getRubro());
-                jSpinner1.setValue(prod.getStock());
-            }
-        }
+       buscar();
     }//GEN-LAST:event_jbBuscarActionPerformed
 
     private void cbCategoriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbCategoriasActionPerformed
@@ -291,11 +295,14 @@ public class jifProductos extends javax.swing.JInternalFrame {
 
     private void jbNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbNuevoActionPerformed
         // TODO add your handling code here:
-        jtPaneCodigo.setText("");
-        jtPaneDescripcion.setText("");
-        jtPanePrecio.setText("");
-        jSpinner1.setValue(0);
+        nuevo();
     }//GEN-LAST:event_jbNuevoActionPerformed
+
+    private void jbCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCancelarActionPerformed
+        // TODO add your handling code here:
+        cancelar();
+        cbCategoriasActionPerformed(evt);
+    }//GEN-LAST:event_jbCancelarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -335,14 +342,25 @@ public class jifProductos extends javax.swing.JInternalFrame {
     
     public void agregarProducto (){
         
-        int codigo = Integer.parseUnsignedInt(jtPaneCodigo.getText());
-        String descripcion = jtPaneDescripcion.getText();
-        double precio = Double.parseDouble(jtPanePrecio.getText());
-        int stock = Integer.parseInt(jSpinner1.getValue().toString());
-        Categoria rubro = (Categoria) cbPaneRubro.getSelectedItem();
-        Producto prod = new Producto(codigo, descripcion, precio, stock, rubro);
-        deTodosSa.listaProductos.add(prod);
-        
+        if (jtPaneCodigo.getText().isBlank() || jtPaneDescripcion.getText().isBlank() || jtPanePrecio.getText().isBlank()) {
+            JOptionPane.showMessageDialog(this, "No pueden haber campos vacios!");
+            return;
+        }
+        boolean validar = validarCampos();
+        if (validar){
+           int codigo = Integer.parseUnsignedInt(jtPaneCodigo.getText());
+           String descripcion = jtPaneDescripcion.getText();
+           double precio = Double.parseDouble(jtPanePrecio.getText());
+           int stock = Integer.parseInt(jSpinner1.getValue().toString());
+           Categoria rubro = (Categoria) cbPaneRubro.getSelectedItem();
+           Producto prod = new Producto(codigo, descripcion, precio, stock, rubro);
+           if (deTodosSa.listaProductos.add(prod)) {
+               JOptionPane.showMessageDialog(this, "El producto se ha guardado correctamente!");
+               desactivarCampos();
+           } else {
+               JOptionPane.showMessageDialog(this,"El codigo del producto que intenta agregar ya existe!");
+           }
+        }
     }
     
     public void cargarCombo () {
@@ -356,6 +374,47 @@ public class jifProductos extends javax.swing.JInternalFrame {
         cbCategorias.addItem(Categoria.PERFUMERIA);
     }
     
+    private void nuevo (){
+        activarCampos();
+        jtPaneCodigo.setText("");
+        jtPaneDescripcion.setText("");
+        jtPanePrecio.setText("");
+        jSpinner1.setValue(0);
+        prodEA = null;
+        eliminado = false;
+        actualizado = false;
+    }
+    
+    private void buscar () {
+        if (jtPaneCodigo.getText().isBlank()){
+            JOptionPane.showMessageDialog(this, "En campo código no puede estar vacio!");
+            return;
+        } else {
+            try {
+                int buscar = Integer.parseInt(jtPaneCodigo.getText());
+                boolean encontrado = false;
+                for (Producto prod : deTodosSa.listaProductos){
+                    if (buscar == prod.getCodigo()){
+                        jtPaneDescripcion.setText(prod.getDescripcion());
+                        jtPanePrecio.setText(String.valueOf(prod.getPrecio()));
+                        cbPaneRubro.setSelectedItem(prod.getRubro());
+                        jSpinner1.setValue(prod.getStock());
+                        jtPaneCodigo.setEnabled(false);
+                        encontrado = true;
+                    }
+                }
+                if (!encontrado) {
+                    JOptionPane.showMessageDialog(this, "El codigo ingresado no esxiste");
+                    jtPaneCodigo.requestFocus();
+                }
+            } catch (NumberFormatException nf){
+                JOptionPane.showMessageDialog(this, "En código solo puede ingresar numeros enteros!");
+                jtPaneCodigo.setText("");
+                jtPaneCodigo.requestFocus();
+            }
+        }
+    }
+    
      private void borrarFilas (){
         // Determinamos las filas de la tabla:
         int f = jTableGProductos.getRowCount()-1;
@@ -365,29 +424,127 @@ public class jifProductos extends javax.swing.JInternalFrame {
     }
      
      public void eliminarProducto () {
-         Producto borrarProducto = null;
-         for (Producto prod : deTodosSa.listaProductos){
-             if (prod.getCodigo() == Integer.parseInt(jtPaneCodigo.getText())) {
-                 borrarProducto = prod;
+         
+         if (jtPaneCodigo.getText().isBlank()){
+            JOptionPane.showMessageDialog(this, "En campo código no puede estar vacio!");
+            return;
+         } else {
+             try {
+                 Producto borrarProducto = null;
+                 for (Producto prod : deTodosSa.listaProductos){
+                     if (prod.getCodigo() == Integer.parseInt(jtPaneCodigo.getText())) {
+                         borrarProducto = prod;
+                         prodEA = prod;
+                         eliminado = true;
+                     }
+                 }
+                 if (deTodosSa.listaProductos.remove(borrarProducto)) {
+                     JOptionPane.showMessageDialog(this, "El producto ha sido eliminado correctamente");
+                     desactivarCampos();
+                 } else {
+                     JOptionPane.showMessageDialog(this, "E codigo de producto que intenta eliminar no existe!");
+                 }
+             } catch (NumberFormatException nf) {
+                 JOptionPane.showMessageDialog(this, "En código solo puede ingresar numeros enteros!");
+                 jtPaneCodigo.setText("");
+                 jtPaneCodigo.requestFocus();
+             }
+             catch (NullPointerException np){
+                 JOptionPane.showMessageDialog(this, "E codigo de producto que intenta eliminar no existe!");
+                 jtPaneCodigo.setText("");
+                 jtPaneCodigo.requestFocus();
              }
          }
-         deTodosSa.listaProductos.remove(borrarProducto);
      }
      
      public void actualizarProducto (){
+         boolean encontrado = false;
+         if (jtPaneCodigo.getText().isBlank() || jtPaneDescripcion.getText().isBlank() || jtPanePrecio.getText().isBlank()) {
+             JOptionPane.showMessageDialog(this, "No pueden haber campos vacios!");
+             return;}
          for (Producto prod : deTodosSa.listaProductos){
              if(prod.getCodigo() == Integer.parseInt(jtPaneCodigo.getText())){
-                 int codigo = Integer.parseUnsignedInt(jtPaneCodigo.getText());
-                 prod.setCodigo(codigo);
-                 String descripcion = jtPaneDescripcion.getText();
-                 prod.setDescripcion(descripcion);
-                 double precio = Double.parseDouble(jtPanePrecio.getText());
-                 prod.setPrecio(precio);
-                 int stock = Integer.parseInt(jSpinner1.getValue().toString());
-                 prod.setStock(stock);
-                 Categoria rubro = (Categoria) cbPaneRubro.getSelectedItem();
-                 prod.setRubro(rubro);
+                 if (jtPaneCodigo.getText().isBlank() || jtPaneDescripcion.getText().isBlank() || jtPanePrecio.getText().isBlank()) {
+                     JOptionPane.showMessageDialog(this, "No pueden haber campos vacios!");
+                     return;
+                 }
+                 boolean validar = validarCampos();
+                 if (validar) {
+                     actualizado = true;
+                     encontrado = true;
+                     int codigo = Integer.parseUnsignedInt(jtPaneCodigo.getText());
+                     prod.setCodigo(codigo);
+                     String descripcion = jtPaneDescripcion.getText();
+                     prod.setDescripcion(descripcion);
+                     double precio = Double.parseDouble(jtPanePrecio.getText());
+                     prod.setPrecio(precio);
+                     int stock = Integer.parseInt(jSpinner1.getValue().toString());
+                     prod.setStock(stock);
+                     Categoria rubro = (Categoria) cbPaneRubro.getSelectedItem();
+                     prod.setRubro(rubro);
+                     JOptionPane.showMessageDialog(this, "El producto ha sido actualizado correctamente");
+                     desactivarCampos();
+                 }
+             }
+         }
+         if (!encontrado){
+             JOptionPane.showMessageDialog(this, "El codigo ingresado no existe!");
+             jtPaneCodigo.requestFocus();
+         }
+     }
+     
+     private void cancelar (){
+         if (actualizado) {
+             JOptionPane.showMessageDialog(this, "Modifique nuevamente el producto");
+             activarCampos();
+         } else {
+             if (eliminado) {
+                 deTodosSa.listaProductos.add(prodEA);
+                 JOptionPane.showMessageDialog(this, "Se ha restablecido el producto que elimino previamente!");
+                 nuevo();
+             } else {
+                 JOptionPane.showMessageDialog(this, "No hay acciones que puedan ser canceladas!");
              }
          }
      }
+     
+     private boolean validarCampos () { 
+             
+             String val1 = "[0-9]*";
+             if (!jtPaneCodigo.getText().matches(val1)){
+                 JOptionPane.showMessageDialog(this, "En el apartado codigos solo puede ingresar números!");
+                 jtPaneCodigo.requestFocus();
+                 return false;
+             }
+             String val2 = "^[0-9]+(\\.[0-9]+){0,1}$";
+             if (!jtPanePrecio.getText().matches(val2)) {
+                 JOptionPane.showMessageDialog(this, "En el apartado precio solo puede ingresar números!");
+                 jtPanePrecio.requestFocus();
+                 return false;
+             }
+             
+             if ((int) jSpinner1.getValue() < 1) {
+                 JOptionPane.showMessageDialog(this, "Ingrese la cantidad en stock!");
+                 jSpinner1.requestFocus();
+                 return false;
+             }
+             return true;
+     }
+     
+     private void desactivarCampos () {
+         jtPaneCodigo.setEnabled(false);
+         jtPaneDescripcion.setEnabled(false);
+         jtPanePrecio.setEnabled(false);
+         jSpinner1.setEnabled(false);
+         cbPaneRubro.setEnabled(false);
+     }
+     
+     private void activarCampos () {
+         jtPaneCodigo.setEnabled(true);
+         jtPaneDescripcion.setEnabled(true);
+         jtPanePrecio.setEnabled(true);
+         jSpinner1.setEnabled(true);
+         cbPaneRubro.setEnabled(true);
+     }
 }
+
