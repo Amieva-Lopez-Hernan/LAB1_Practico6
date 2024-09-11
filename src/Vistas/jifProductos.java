@@ -280,6 +280,7 @@ public class jifProductos extends javax.swing.JInternalFrame {
     private void jbEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEliminarActionPerformed
         // TODO add your handling code here:
         eliminarProducto();
+        cbCategoriasActionPerformed(evt);
     }//GEN-LAST:event_jbEliminarActionPerformed
 
     private void jbActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbActualizarActionPerformed
@@ -364,13 +365,13 @@ public class jifProductos extends javax.swing.JInternalFrame {
     }
      
      public void eliminarProducto () {
-         Iterator<Producto> iter = deTodosSa.listaProductos.iterator();
-         while (iter.hasNext()) {
-             Producto prod = (Producto) iter.next();
-             if (prod.getCodigo() == Integer.parseInt(jtPaneCodigo.getText())){
-                 deTodosSa.listaProductos.remove(prod);
+         Producto borrarProducto = null;
+         for (Producto prod : deTodosSa.listaProductos){
+             if (prod.getCodigo() == Integer.parseInt(jtPaneCodigo.getText())) {
+                 borrarProducto = prod;
              }
          }
+         deTodosSa.listaProductos.remove(borrarProducto);
      }
      
      public void actualizarProducto (){

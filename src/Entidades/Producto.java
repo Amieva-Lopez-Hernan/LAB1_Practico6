@@ -72,10 +72,10 @@ public class Producto implements Comparable<Producto> {
     @Override
     public int compareTo(Producto o) {
         
-        if (codigo == o.codigo){
+        if (this.codigo == o.codigo){
             return 0;
         } else {
-            if (codigo > o.codigo){
+            if (this.codigo > o.codigo){
                 return 1;
             } else {
                 return -1;
