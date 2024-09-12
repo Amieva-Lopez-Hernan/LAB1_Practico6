@@ -5,6 +5,8 @@
  */
 package Vistas;
 
+import Entidades.Categoria;
+import Entidades.Producto;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -12,6 +14,8 @@ import javax.swing.table.DefaultTableModel;
  * @author valer
  */
 public class jifConsultaRubro extends javax.swing.JInternalFrame {
+    
+    int i=0;
 
      private DefaultTableModel modelo = new DefaultTableModel();
     
@@ -25,6 +29,8 @@ public class jifConsultaRubro extends javax.swing.JInternalFrame {
      */
     public jifConsultaRubro() {
         initComponents();
+        cargarRubro();
+        armarCabecera();
     }
 
     /**
@@ -38,7 +44,7 @@ public class jifConsultaRubro extends javax.swing.JInternalFrame {
 
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        jCBRubro = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTablaProd = new javax.swing.JTable();
 
@@ -47,7 +53,11 @@ public class jifConsultaRubro extends javax.swing.JInternalFrame {
 
         jLabel2.setText("Rubro");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jCBRubro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCBRubroActionPerformed(evt);
+            }
+        });
 
         jTablaProd.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -74,7 +84,7 @@ public class jifConsultaRubro extends javax.swing.JInternalFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel2)
                                 .addGap(42, 42, 42)
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jCBRubro, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(29, 29, 29)
@@ -89,7 +99,7 @@ public class jifConsultaRubro extends javax.swing.JInternalFrame {
                 .addGap(32, 32, 32)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jCBRubro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(57, 57, 57))
@@ -98,9 +108,31 @@ public class jifConsultaRubro extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jCBRubroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBRubroActionPerformed
+        // TODO add your handling code here:
+         i += 1;
+        if(i>1){
+        int f = jTablaProd.getRowCount()-1;
+        for(;f>=0;f--){
+            modelo.removeRow(f);
+        }}
+        
+        for(Producto p1: deTodosSa.listaProductos){
+            if(p1.getRubro() == jCBRubro.getSelectedItem()){
+                modelo.addRow(new Object [] {
+                    p1.getCodigo(),
+                    p1.getDescripcion(),
+                    p1.getPrecio(),
+                    p1.getStock()
+                });
+                
+            }
+        }
+    }//GEN-LAST:event_jCBRubroActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<Categoria> jCBRubro;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
@@ -115,6 +147,11 @@ public class jifConsultaRubro extends javax.swing.JInternalFrame {
         modelo.addColumn("Stock");
         jTablaProd.setModel(modelo);
         
+    }
+    private void cargarRubro(){
+        jCBRubro.addItem(Categoria.COMESTIBLES);
+        jCBRubro.addItem(Categoria.LIMPIEZA);
+        jCBRubro.addItem(Categoria.PERFUMERIA);
     }
 
 }

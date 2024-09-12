@@ -83,6 +83,11 @@ public class deTodosSa extends javax.swing.JFrame {
         });
 
         jmItemRubro.setText("Buscar por Rubro");
+        jmItemRubro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmItemRubroActionPerformed(evt);
+            }
+        });
         jmConsultas.add(jmItemRubro);
 
         jmItemNombre.setText("Buscar por Nombre");
@@ -149,6 +154,16 @@ public class deTodosSa extends javax.swing.JFrame {
         // TODO add your handling code here:
         
     }//GEN-LAST:event_jmAdministraciónActionPerformed
+
+    private void jmItemRubroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmItemRubroActionPerformed
+        // TODO add your handling code here:
+        Escritorio.removeAll();
+        Escritorio.repaint();
+        jifConsultaRubro consRubro= new jifConsultaRubro();
+        consRubro.setVisible(true);
+        Escritorio.add(consRubro);
+        Escritorio.moveToFront(consRubro);
+    }//GEN-LAST:event_jmItemRubroActionPerformed
 
     /**
      * @param args the command line arguments
