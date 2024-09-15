@@ -99,6 +99,11 @@ public class deTodosSa extends javax.swing.JFrame {
         jmConsultas.add(jmItemNombre);
 
         jmItemPrecio.setText("Buscar por Precio");
+        jmItemPrecio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmItemPrecioActionPerformed(evt);
+            }
+        });
         jmConsultas.add(jmItemPrecio);
 
         jmMenu.add(jmConsultas);
@@ -164,6 +169,16 @@ public class deTodosSa extends javax.swing.JFrame {
         Escritorio.add(consRubro);
         Escritorio.moveToFront(consRubro);
     }//GEN-LAST:event_jmItemRubroActionPerformed
+
+    private void jmItemPrecioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmItemPrecioActionPerformed
+        // TODO add your handling code here:
+        Escritorio.removeAll();
+        Escritorio.repaint();
+        jifConsultaPrecio consPrecio=new jifConsultaPrecio();
+        consPrecio.setVisible(rootPaneCheckingEnabled);
+        Escritorio.add(consPrecio);
+        Escritorio.moveToFront(consPrecio);
+    }//GEN-LAST:event_jmItemPrecioActionPerformed
 
     /**
      * @param args the command line arguments

@@ -5,6 +5,7 @@
  */
 package Vistas;
 
+import Entidades.Producto;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -15,15 +16,13 @@ public class jifConsultaPrecio extends javax.swing.JInternalFrame {
 
     private DefaultTableModel modelo = new DefaultTableModel();
     
-    public boolean IsCellEditable (int f, int c) {
-        
-        return false;
-         }
+    
     /**
      * Creates new form jifConsultaPrecio
      */
     public jifConsultaPrecio() {
         initComponents();
+        armarCabecera();
     }
 
     /**
@@ -49,11 +48,13 @@ public class jifConsultaPrecio extends javax.swing.JInternalFrame {
 
         jLabel2.setText("Entre $$");
 
-        jTMenorPrecio.setText("jTextField1");
-
         jLabel3.setText("y");
 
-        jTMayorPrecio.setText("jTextField2");
+        jTMayorPrecio.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTMayorPrecioKeyReleased(evt);
+            }
+        });
 
         jTablaProd.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -77,16 +78,16 @@ public class jifConsultaPrecio extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 367, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addGap(0, 29, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 11, Short.MAX_VALUE)
+                        .addGap(23, 23, 23)
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTMenorPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(31, 31, 31)
+                        .addGap(18, 18, 18)
+                        .addComponent(jTMenorPrecio)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTMayorPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -111,6 +112,21 @@ public class jifConsultaPrecio extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jTMayorPrecioKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTMayorPrecioKeyReleased
+        // TODO add your handling code here:
+        borrarFilas();
+        for(Producto prod: deTodosSa.listaProductos){
+            if ((jTMayorPrecio.getText().isEmpty()||prod.getPrecio()<Double.parseDouble(jTMayorPrecio.getText()))&&(jTMenorPrecio.getText().isEmpty()||prod.getPrecio()>Double.parseDouble(jTMenorPrecio.getText()))){
+            modelo.addRow(new Object[]{
+                 prod.getCodigo(),
+                    prod.getDescripcion(),
+                    prod.getPrecio(),
+                    prod.getStock()
+            });
+          }   
+        }
+    }//GEN-LAST:event_jTMayorPrecioKeyReleased
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
@@ -128,6 +144,13 @@ public class jifConsultaPrecio extends javax.swing.JInternalFrame {
         modelo.addColumn("Precio");
         modelo.addColumn("Stock");
         jTablaProd.setModel(modelo);
+    }
+    private void borrarFilas(){
+        int f = jTablaProd.getRowCount()-1;
+        for(;f>=0;f--){
+            modelo.removeRow(f);
+        }
+        
     }
 
 }
