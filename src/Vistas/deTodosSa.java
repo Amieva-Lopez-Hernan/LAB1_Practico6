@@ -3,7 +3,10 @@ package Vistas;
 
 import Entidades.Categoria;
 import Entidades.Producto;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.util.TreeSet;
+import javax.swing.ImageIcon;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -36,7 +39,13 @@ public class deTodosSa extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        Escritorio = new javax.swing.JDesktopPane();
+        ImageIcon icono = new ImageIcon (getClass().getResource("/Imagenes/desktop.jpg"));
+        Image miImagen = icono.getImage();
+        Escritorio = new javax.swing.JDesktopPane(){
+            public void paintComponent (Graphics g){
+                g.drawImage(miImagen,0,0,getWidth(),getHeight(),this);
+            }
+        };
         jmMenu = new javax.swing.JMenuBar();
         jmAdministración = new javax.swing.JMenu();
         jmItemProductos = new javax.swing.JMenuItem();
@@ -44,18 +53,21 @@ public class deTodosSa extends javax.swing.JFrame {
         jmItemRubro = new javax.swing.JMenuItem();
         jmItemNombre = new javax.swing.JMenuItem();
         jmItemPrecio = new javax.swing.JMenuItem();
+        jmSalir = new javax.swing.JMenu();
+        jmItemSalir = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         javax.swing.GroupLayout EscritorioLayout = new javax.swing.GroupLayout(Escritorio);
         Escritorio.setLayout(EscritorioLayout);
         EscritorioLayout.setHorizontalGroup(
             EscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 605, Short.MAX_VALUE)
+            .addGap(0, 700, Short.MAX_VALUE)
         );
         EscritorioLayout.setVerticalGroup(
             EscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 630, Short.MAX_VALUE)
+            .addGap(0, 677, Short.MAX_VALUE)
         );
 
         jmAdministración.setText("Administración");
@@ -108,15 +120,30 @@ public class deTodosSa extends javax.swing.JFrame {
 
         jmMenu.add(jmConsultas);
 
+        jmSalir.setText("Salir");
+        jmSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmSalirActionPerformed(evt);
+            }
+        });
+
+        jmItemSalir.setText("Salir");
+        jmItemSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmItemSalirActionPerformed(evt);
+            }
+        });
+        jmSalir.add(jmItemSalir);
+
+        jmMenu.add(jmSalir);
+
         setJMenuBar(jmMenu);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(Escritorio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(Escritorio)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -180,6 +207,15 @@ public class deTodosSa extends javax.swing.JFrame {
         Escritorio.moveToFront(consPrecio);
     }//GEN-LAST:event_jmItemPrecioActionPerformed
 
+    private void jmSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmSalirActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jmSalirActionPerformed
+
+    private void jmItemSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmItemSalirActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_jmItemSalirActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -223,7 +259,9 @@ public class deTodosSa extends javax.swing.JFrame {
     private javax.swing.JMenuItem jmItemPrecio;
     private javax.swing.JMenuItem jmItemProductos;
     private javax.swing.JMenuItem jmItemRubro;
+    private javax.swing.JMenuItem jmItemSalir;
     private javax.swing.JMenuBar jmMenu;
+    private javax.swing.JMenu jmSalir;
     // End of variables declaration//GEN-END:variables
     
     public void cargarProductos (){
